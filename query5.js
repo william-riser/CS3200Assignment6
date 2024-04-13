@@ -18,8 +18,8 @@ const userTweets = async () => {
   for (const tweet of cursor) {
     const user = tweet.user.screen_name;
     const tweetString = JSON.stringify(tweet);
-    await redisClient.LPUSH("tweets:" + user, tweet.id);
-    await redisClient.SADD("tweet:" + tweet.id, tweetString);
+    await redisClient.LPUSH("tweets:" + user, tweet.id_str);
+    await redisClient.HSET("tweet:" + tweet.id, {tweet:tweetString});
   }
   await client.close();
 };
